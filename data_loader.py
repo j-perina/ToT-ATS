@@ -15,8 +15,9 @@ from main_config import ONESHOT_CACHED_RESULTS_PATH
 
 def load_resumes(path="resumes.xlsx"):
     """
-    Reads resumes from an Excel file and returns a list of resume dictionaries.
-    Each resume is expected to have the following columns: name, location, summary, education, experience, skills.
+    Reads and parses resume data from an Excel file into a structured format.
+    Each resume is converted into a dictionary containing key sections like name, location, summary, education, experience, and skills.
+    Returns a list of these resume dictionaries for further processing.
     """
     df = pd.read_excel(path)
     resumes = []
@@ -36,7 +37,9 @@ def load_resumes(path="resumes.xlsx"):
 
 def load_or_generate_ats_results(resumes, job_description, load_path="ATS_Results_Stored.xlsx", save_path="ATS_Results.xlsx", force_rerun=False):
     """
-    Loads cached ATS results if available, or runs evaluation and saves new results.
+    Manages the ATS (Applicant Tracking System) evaluation process with caching capabilities.
+    Either loads existing evaluation results from cache or performs a full evaluation of resumes against a job description.
+    Implements a weighted scoring system across multiple resume components and saves results for future use.
 
     Args:
         resumes (list[dict]): Parsed resume dictionaries.
@@ -120,7 +123,9 @@ def load_or_generate_ats_results(resumes, job_description, load_path="ATS_Result
 
 def run_or_load_oneshot_evaluation(resumes, job_description, use_cache=True):
     """
-    Runs or loads one-shot evaluation for resumes.
+    Handles one-shot evaluation of resumes against a job description with caching support.
+    Either retrieves previously cached results or performs a new evaluation if no cache exists.
+    Saves results to both a cache file and an active results file for immediate use.
 
     Parameters:
         resumes (list): List of resume dictionaries.
